@@ -13,7 +13,7 @@ class PredictionPipeline:
 
     def predict(self):
         # load model
-        model = load_model(os.path.join("model", "model.h5"))
+        model = load_model(os.path.join("artifacts/training", "model.h5"))
 
         imagename = self.filename
         test_image = image.load_img(imagename, target_size = (224,224))
@@ -21,6 +21,9 @@ class PredictionPipeline:
         test_image = np.expand_dims(test_image, axis = 0)
         result = np.argmax(model.predict(test_image), axis=1)
         print(result)
+
+        print(model.predict(test_image))  # Check the raw output (should be a vector of probabilities)
+
 
         if result[0] == 1:
             prediction = 'Tumor'
