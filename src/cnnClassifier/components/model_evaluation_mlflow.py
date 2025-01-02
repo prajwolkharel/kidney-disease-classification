@@ -54,21 +54,25 @@ class Evaluation:
 
 
     def log_into_mlflow(self):
-        mlflow.set_registry_uri(self.config.mlflow_uri)
+        """
+        Log the model and metrics into MLflow.
+        """
+        # Ensure MLflow is authenticated and connected
+        mlflow.set_tracking_uri(self.config.mlflow_uri)
+        mlflow.set_experiment("disease-classification")  # Optional, set an experiment name
+
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
 
         with mlflow.start_run():
-            mlflow.log_params(self.config.all_params)
-            mlflow.log_metrics(
-                {"loss": self.score[0], "accuracy": self.score[1]}
-            )
-            # Model registry does not work with file store
-            if tracking_url_type_store != "file":
+            mlflow.log_params(self.config.all_params)  # Log all the parameters
 
-                # Register the model
-                # There are other ways to use the Model Registry, which depends on the use case,
-                # please refer to the doc for more information:
-                # https://mlflow.org/docs/latest/model-registry.html#api-workflow
+            # Log metrics (loss, accuracy)
+            mlflow.log_metrics({"loss": self.score[0], "accuracy": self.score[1]})
+
+            # Model registry does not work with the file store
+            if tracking_url_type_store != "file":
+                # Log and register the model to the Model Registry
                 mlflow.keras.log_model(self.model, "model", registered_model_name="VGG16Model")
             else:
+                # Log the model without registry
                 mlflow.keras.log_model(self.model, "model")
