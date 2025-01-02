@@ -2,7 +2,7 @@ AUGMENTATION: True
 IMAGE_SIZE: [224, 224, 3]  # for VG 16 model
 BATCH_SIZE: 16  # local training
 INCLUDE_TOP: False  # excluding FC Layer
-EPOCHS: 1
+EPOCHS: 2
 CLASSES: 2
 WEIGHTS: imagenet  # pretrained model on imagenet dataset
 LEARNING_RATE: 0.01
