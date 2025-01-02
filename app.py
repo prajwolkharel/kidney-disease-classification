@@ -5,7 +5,6 @@ from cnnClassifier.utils.common import decodeImage
 from cnnClassifier.pipeline.prediction import PredictionPipeline
 
 
-
 os.putenv('LANG', 'en_US.UTF-8')
 os.putenv('LC_ALL', 'en_US.UTF-8')
 
@@ -23,8 +22,6 @@ class ClientApp:
 @cross_origin()
 def home():
     return render_template('index.html')
-
-
 
 
 @app.route("/train", methods=['GET','POST'])
@@ -47,5 +44,4 @@ def predictRoute():
 
 if __name__ == "__main__":
     clApp = ClientApp()
-
     app.run(host='0.0.0.0', port=8080) #for AWS
